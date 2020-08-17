@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RootNamespace>CESUT_NEWMODE</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Base-Component\Product-Component\" />
+    <Folder Include="Base-Component\Product\" />
+    <Folder Include="Base-Component\Shop-Component\" />
+    <Folder Include="Base-Component\Shop\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
