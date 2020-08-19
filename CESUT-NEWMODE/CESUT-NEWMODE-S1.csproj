@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Base-Component\Product-Component\" />
-    <Folder Include="Base-Component\Product\" />
     <Folder Include="Base-Component\Shop-Component\" />
     <Folder Include="Base-Component\Shop\" />
   </ItemGroup>

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Concurrent;
 
 namespace CESUT_NEWMODE.Toolkit.Packing
 {
     internal interface IPackable
     {
-        Dictionary<string, object> Pack();
-        void Dpkg(Dictionary<string, object> dic);
+        ConcurrentDictionary<string, object> Pack();
+
+        void Dpkg(ConcurrentDictionary<string, object> dic);
+
         string GetId();
     }
 }
