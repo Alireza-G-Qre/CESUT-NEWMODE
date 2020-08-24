@@ -42,6 +42,23 @@ namespace CESUT_NEWMODE.Base_Component.Account
 
             public ConcurrentDictionary<Access, bool> ManagerAccess { get; private set; }
 
+            public override ConcurrentDictionary<string, object> Pack()
+            {
+                ConcurrentDictionary<string, object> cd = base.Pack();
+                cd.TryAdd("personalInfo", PersonalInfo);
+                cd.TryAdd("managerAccess", ManagerAccess);
+                return cd;
+            }
+
+            public override void Dpkg(ConcurrentDictionary<string, object> dic)
+            {
+                base.Dpkg(dic);
+                dic.TryGetValue("personalInfo", out object pi);
+                PersonalInfo = pi as ConcurrentDictionary<Personals, string>;
+                dic.TryGetValue("managerAccess", out object ma);
+                ManagerAccess = ma as ConcurrentDictionary<Access, bool>;
+            }
+
         }
 
         internal enum Access
@@ -55,7 +72,7 @@ namespace CESUT_NEWMODE.Base_Component.Account
             //...
         }
 
-        public static ConcurrentDictionary<Access, bool> InitManagerAccess()
+        private static ConcurrentDictionary<Access, bool> InitManagerAccess()
         {
             return new ConcurrentDictionary<Access, bool>()
                 {

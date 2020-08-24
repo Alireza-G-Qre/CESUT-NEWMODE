@@ -1,10 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Concurrent;
+using CESUT_NEWMODE.Toolkit.Packing;
 
 namespace CESUT_NEWMODE.Base_Component.Account_Component
 {
-    internal class PurchaseLog
+    internal class PurchaseLog : IPackable
     {
+        public static PurchaseLog GetPurchaseLogById(string id)
+        {
+            return null;
+        }
+
+        public void Dpkg(ConcurrentDictionary<string, object> dic)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string GetId()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ConcurrentDictionary<string, object> Pack()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

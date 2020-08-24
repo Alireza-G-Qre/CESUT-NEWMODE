@@ -3,6 +3,7 @@ using CESUT_NEWMODE.Base_Component.Account_Component;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
+using CESUT_NEWMODE.Toolkit.ConcurrentDic;
 
 namespace CESUT_NEWMODE.Base_Component.Account
 {
@@ -44,15 +45,35 @@ namespace CESUT_NEWMODE.Base_Component.Account
 
             public ConcurrentDictionary<string, PurchaseLog> PuchaseLogs { get; private set; }
 
+            public override ConcurrentDictionary<string, object> Pack()
+            {
+                ConcurrentDictionary<string, object> cd = base.Pack();
+                cd.TryAdd("personalInfo", PersonalInfo);
+                cd.TryAdd("PuchaseLogs.ids", PuchaseLogs.Keys);
+                return cd;
+            }
+
+            public override void Dpkg(ConcurrentDictionary<string, object> dic)
+            {
+                base.Dpkg(dic);
+                dic.TryGetValue("personalInfo", out object pi);
+                PersonalInfo = pi as ConcurrentDictionary<Personals, string>;
+                dic.TryGetValue("PuchaseLogs.ids", out object pli);
+                PuchaseLogs = ConcurrentDic.ToDictionary<string, string, PurchaseLog>(
+                    (pli as ICollection<string>),
+                    key => key,
+                    key => PurchaseLog.GetPurchaseLogById(key)
+                    );
+            }
+
         }
 
-        public static ConcurrentDictionary<string, PurchaseLog> InitPuchaseLogsOfMe()
+        private static ConcurrentDictionary<string, PurchaseLog> InitPuchaseLogsOfMe()
         {
             return new ConcurrentDictionary<string, PurchaseLog>()
             {
                 //...
             };
         }
-
     }
 }

@@ -1,10 +1,10 @@
 ﻿using CESUT_NEWMODE.Toolkit.Packing;
-using CESUT_NEWMODE.Toolkit.InputEvaluators;
 using System.Collections.Generic;
-using CESUT_NEWMODE.Base_Component.Account_Component;
 using System.Collections.Concurrent;
 using System.Linq;
 using System;
+using CESUT_NEWMODE.Toolkit.InputEvaluators;
+using CESUT_NEWMODE.Toolkit.IDHandler;
 
 namespace CESUT_NEWMODE.Base_Component.Account
 {
@@ -51,9 +51,7 @@ namespace CESUT_NEWMODE.Base_Component.Account
 
             public MiniAccount()
             {
-                Wallet = new Wallet();
-                Cart = new Cart();
-                Logs = new Logs();
+                
             }
 
             private string _username;
@@ -82,24 +80,30 @@ namespace CESUT_NEWMODE.Base_Component.Account
 
             public string AccountId { get; private set; }
 
-            public Cart Cart { get; private set; }
+            public string usrClazz { get; private set; }
 
-            public Wallet Wallet { get; private set; }
+            public string CartId { get; private set; }
 
-            public Logs Logs { get; private set; }
+            public string Wallet { get; private set; }
 
-            public ConcurrentDictionary<string, object> Pack()
+            public string LogsId { get; private set; }
+
+            public virtual ConcurrentDictionary<string, object> Pack()
             {
                 return new ConcurrentDictionary<string, object>()
                 {
                     ["accountId"] = AccountId,
-                    ["username"] =  Username,
+                    ["username"] = Username,
                     ["password"] = Password,
-                    ["wallet.credit"] = Wallet.Credit
+                    ["usrClazz"] = usrClazz,
+                    ["wallet"] = Wallet,
+                    ["mycart"] = CartId,
+                    ["mylogs"] = LogsId,
+                    //...
                 };
             }
 
-            public void Dpkg(ConcurrentDictionary<string, object> dic)
+            public virtual void Dpkg(ConcurrentDictionary<string, object> dic)
             {
                 dic.TryGetValue("accountId", out object a);
                 AccountId = a as string;
@@ -107,11 +111,21 @@ namespace CESUT_NEWMODE.Base_Component.Account
                 Username = un as string;
                 dic.TryGetValue("password", out object pw);
                 Password = pw as string;
-                dic.TryGetValue("wallet.credit", out object wc);
-                Wallet.Credit = Double.Parse(wc as string);
+                dic.TryGetValue("usrClazz", out object uc);
+                usrClazz = uc as string;
+
+                dic.TryGetValue("Wallet", out object wc);
+                Wallet = wc as string;
+                dic.TryGetValue("mycart", out object mc);
+                CartId = mc as string;
+                dic.TryGetValue("mylogs", out object ml);
+                LogsId = ml as string;
             }
 
             public string GetId() => AccountId;
+
+            public string Init_ID() => IDHandler.Init_ID<MiniAccount>(
+                AllAccounts.Select(account => account.Mini).ToList());
         }
 
         internal enum Personals
@@ -124,7 +138,17 @@ namespace CESUT_NEWMODE.Base_Component.Account
             //...
         }
 
-        public static ConcurrentDictionary<Personals, string> InitPersonalInfo()
+        internal enum UserClass
+        {
+            Legend,
+            Super,
+            Normal,
+            Weak,
+            Dead,
+            //...
+        }
+
+        protected static ConcurrentDictionary<Personals, string> InitPersonalInfo()
         {
             return new ConcurrentDictionary<Personals, string>()
             {
@@ -135,5 +159,6 @@ namespace CESUT_NEWMODE.Base_Component.Account
                 [Personals.DTAE_OF_BIRTH] = "UNKNOWN ACCOUNT",
             };
         }
+
     }
 }
