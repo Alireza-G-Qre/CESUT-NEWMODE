@@ -92,34 +92,20 @@ namespace CESUT_NEWMODE.Base_Component.Account
             {
                 return new ConcurrentDictionary<string, object>()
                 {
-                    ["accountId"] = AccountId,
-                    ["username"] = Username,
-                    ["password"] = Password,
-                    ["usrClazz"] = usrClazz,
-                    ["wallet"] = Wallet,
-                    ["mycart"] = CartId,
-                    ["mylogs"] = LogsId,
+                    ["accountId"] = null,
+                    ["username"] = null,
+                    ["password"] = null,
+                    ["usrClazz"] = null,
+                    ["walletin"] = null,
+                    ["mycartin"] = null,
+                    ["mylogsin"] = null,
                     //...
                 };
             }
 
             public virtual void Dpkg(ConcurrentDictionary<string, object> dic)
             {
-                dic.TryGetValue("accountId", out object a);
-                AccountId = a as string;
-                dic.TryGetValue("username", out object un);
-                Username = un as string;
-                dic.TryGetValue("password", out object pw);
-                Password = pw as string;
-                dic.TryGetValue("usrClazz", out object uc);
-                usrClazz = uc as string;
-
-                dic.TryGetValue("Wallet", out object wc);
-                Wallet = wc as string;
-                dic.TryGetValue("mycart", out object mc);
-                CartId = mc as string;
-                dic.TryGetValue("mylogs", out object ml);
-                LogsId = ml as string;
+                //...
             }
 
             public string GetId() => AccountId;

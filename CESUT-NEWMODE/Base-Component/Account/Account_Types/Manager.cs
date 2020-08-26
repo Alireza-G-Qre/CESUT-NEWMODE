@@ -45,18 +45,14 @@ namespace CESUT_NEWMODE.Base_Component.Account
             public override ConcurrentDictionary<string, object> Pack()
             {
                 ConcurrentDictionary<string, object> cd = base.Pack();
-                cd.TryAdd("personalInfo", PersonalInfo);
-                cd.TryAdd("managerAccess", ManagerAccess);
+                cd.TryAdd("personalInfo", null);
+                cd.TryAdd("managerAccess", null);
                 return cd;
             }
 
             public override void Dpkg(ConcurrentDictionary<string, object> dic)
             {
-                base.Dpkg(dic);
-                dic.TryGetValue("personalInfo", out object pi);
-                PersonalInfo = pi as ConcurrentDictionary<Personals, string>;
-                dic.TryGetValue("managerAccess", out object ma);
-                ManagerAccess = ma as ConcurrentDictionary<Access, bool>;
+                //...
             }
 
         }

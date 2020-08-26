@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Linq;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using CESUT_NEWMODE.Toolkit.IDHandler;
@@ -9,6 +10,12 @@ namespace CESUT_NEWMODE.Base_Component.Account_Component
     internal class Wallet : IPackable
     {
         public static List<Wallet> AllWallets { get; set; }
+
+        public static Wallet GetWalletByID(string id)
+        {
+            return AllWallets.AsParallel().Where(a => a.WalletId.Equals(id))
+                        .SingleOrDefault(null);
+        }
 
         public string WalletId { get; private set; }
 
@@ -24,21 +31,16 @@ namespace CESUT_NEWMODE.Base_Component.Account_Component
         {
             return new ConcurrentDictionary<string, object>()
             {
-                ["walletid"] = WalletId,
-                ["balance"] = SrcBalance.ToString(),
-                ["minbalance"] = MinBalance.ToString(),
+                ["walletid"] = null,
+                ["balance"] = null,
+                ["minbalance"] = null,
                 //...
             };
         }
 
         public void Dpkg(ConcurrentDictionary<string, object> dic)
         {
-            dic.TryGetValue("walletid", out object wi);
-            WalletId = wi as string;
-            dic.TryGetValue("balance", out object bl);
-            SrcBalance = Double.Parse(bl as string);
-            dic.TryGetValue("minbalance", out object mbl);
-            MinBalance = Double.Parse(mbl as string);
+            //...
         }
 
         internal static class Primitives

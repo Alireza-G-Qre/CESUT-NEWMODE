@@ -50,37 +50,21 @@ namespace CESUT_NEWMODE.Base_Component.Account
 
             public ConcurrentDictionary<string, ProductObj> ProductOfMe { get; private set; }
 
-            public ConcurrentDictionary<string, PurchaseLog> PuchaseLogs { get; private set; }
+            public ConcurrentDictionary<string, PLog> PuchaseLogs { get; private set; }
 
             public override ConcurrentDictionary<string, object> Pack()
             {
                 ConcurrentDictionary<string, object> cd = base.Pack();
-                cd.TryAdd("personalInfo", PersonalInfo);
-                cd.TryAdd("companyInfo", CompanyInfo);
-                cd.TryAdd("ProductOfMe.ids", ProductOfMe.Keys);
-                cd.TryAdd("PuchaseLogs.ids", PuchaseLogs.Keys);
+                cd.TryAdd("personalInfo", null);
+                cd.TryAdd("companyInfo", null);
+                cd.TryAdd("ProductOfMe.ids", null);
+                cd.TryAdd("PuchaseLogs.ids", null);
                 return cd;
             }
 
             public override void Dpkg(ConcurrentDictionary<string, object> dic)
             {
-                base.Dpkg(dic);
-                dic.TryGetValue("personalInfo", out object pi);
-                PersonalInfo = pi as ConcurrentDictionary<Personals, string>;
-                dic.TryGetValue("managerAccess", out object ci);
-                CompanyInfo = ci as ConcurrentDictionary<CompanyIf, string>;
-                dic.TryGetValue("ProductOfMe.ids", out object pmi);
-                ProductOfMe = ConcurrentDic.ToDictionary<string, string, ProductObj>(
-                    (pmi as ICollection<string>),
-                    key => key,
-                    key => ProductObj.getProductObjById(key)
-                    );
-                dic.TryGetValue("PuchaseLogs.ids", out object pli);
-                PuchaseLogs = ConcurrentDic.ToDictionary<string, string, PurchaseLog>(
-                    (pli as ICollection<string>),
-                    key => key,
-                    key => PurchaseLog.GetPurchaseLogById(key)
-                    );
+                //...
             }
         }
 
@@ -104,9 +88,9 @@ namespace CESUT_NEWMODE.Base_Component.Account
             };
         }
 
-        private static ConcurrentDictionary<string, PurchaseLog> InitPuchaseLogsOfMe()
+        private static ConcurrentDictionary<string, PLog> InitPuchaseLogsOfMe()
         {
-            return new ConcurrentDictionary<string, PurchaseLog>()
+            return new ConcurrentDictionary<string, PLog>()
             {
                 //...
             };
